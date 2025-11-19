@@ -6,17 +6,17 @@
 
   <style>
     :root {
-      --bg: #050712;
-      --bg-card: #0d1020;
-      --accent: #00f6ff;
-      --accent-soft: rgba(0, 246, 255, 0.2);
-      --accent2: #ff5af1;
-      --text-main: #f5f7ff;
-      --text-sub: #9ca3c7;
-      --danger: #ff4b6a;
-      --success: #4ade80;
-      --border-soft: #1e2238;
-    }
+  --bg: #0D1B3D;
+  --bg-card: #101C3A;
+  --accent: #F79A2D;         /* Naruto orange */
+  --accent-soft: rgba(247,154,45,0.35);
+  --accent2: #0099ff;        /* Chakra blue */
+  --text-main: #f7f8ff;
+  --text-sub: #b9c2df;
+  --danger: #ff4b6a;
+  --success: #4ade80;
+  --border-soft: rgba(255,255,255,0.08);
+}
 
     * {
       box-sizing: border-box;
@@ -26,11 +26,17 @@
     }
 
     body {
-      background: radial-gradient(circle at top, #1f2937 0, #020617 40%);
-      color: var(--text-main);
-      min-height: 100vh;
-      padding: 20px;
-    }
+  background: radial-gradient(circle at top, #1F2B59 0%, #0D1B3D 40%, #0A122A 80%);
+  color: var(--text-main);
+  min-height: 100vh;
+  padding: 20px;
+
+  /* Naruto-style atmosphere */
+  background-image:
+      radial-gradient(circle at 20% 15%, rgba(255,140,0,0.15), transparent 60%),
+      radial-gradient(circle at 80% 30%, rgba(255,200,0,0.12), transparent 60%),
+      radial-gradient(circle at 50% 100%, rgba(0,153,255,0.10), transparent 70%);
+}
 
     .grid {
       display: grid;
@@ -252,14 +258,14 @@
     }
 
     .progress-fill {
-      position: absolute;
-      inset: 0;
-      width: 30%;
-      height: 100%;
-      background: linear-gradient(90deg, #22d3ee, #a855f7, #f97316);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
-      transition: width 0.7s ease-out;
-    }
+  position: absolute;
+  inset: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, #FF9800, #FFC107, #0099FF);
+  box-shadow: 0 0 12px rgba(255,153,0,0.6);
+  transition: width 0.7s ease-out;
+}
 
     .progress-label {
       font-size: 11px;
@@ -447,11 +453,15 @@
 </head>
 <body>
 <header>
-  <h1>
-    PRM BATTLE DASHBOARD
-    <span>Vietnam · JustMarkets Partner Relation Team</span>
-    <span class="badge">Live gamified KPI</span>
-  </h1>
+  <div style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
+    <img src="https://cdn.topasiafx.com/uploads/logo-images/1755511217_68a2f9b10ad2e.webp"
+         style="height:36px; border-radius:6px; box-shadow:0 0 10px rgba(255,140,0,0.4);" />
+    <h1>
+      PRM BATTLE DASHBOARD
+      <span>Vietnam · JustMarkets Partner Relation Team</span>
+      <span class="badge">Live gamified KPI</span>
+    </h1>
+  </div>
 </header>
 
 <div class="players-row" id="playersRow"></div>
