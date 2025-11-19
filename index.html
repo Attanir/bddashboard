@@ -449,9 +449,9 @@
 <body>
 <header>
   <h1>
-    PRM Battle Dashboard
+    PRM BATTLE DASHBOARD
     <span>Vietnam · JustMarkets Partner Relation Team</span>
-    <span class="badge">Live Gamified KPI</span>
+    <span class="badge">Live gamified KPI</span>
   </h1>
 </header>
 
@@ -464,7 +464,7 @@
       <div>
         <div class="card-title">
           New IB Performance
-          <span class="pill">Live from Sheet</span>
+          <span class="pill">Live from sheet</span>
         </div>
         <div class="subtitle">
           Names · IDs · Active clients · Trading volume in USD per PRM
@@ -522,31 +522,75 @@
 
 <script>
 /**
- * CONFIG – CSV links from your Google Sheet
+ * CONFIG – чистые ссылки на Google Sheet (без прокси).
+ * Листы в таблице:
+ *  - PRM_Summary
+ *  - IB_List
+ *  - Tasks
  */
 const CONFIG = {
-  prmSummaryCsvUrl: "https://cors.eu.org/https://docs.google.com/spreadsheets/d/1beV69dn9_XvvQ8fEmOMTfE_Lpb97XmA3/gviz/tq?tqx=out:csv&sheet=PRM_Summary",
-  ibCsvUrl:        "https://cors.eu.org/https://docs.google.com/spreadsheets/d/1beV69dn9_XvvQ8fEmOMTfE_Lpb97XmA3/gviz/tq?tqx=out:csv&sheet=IB_List",
-  tasksCsvUrl:     "https://cors.eu.org/https://docs.google.com/spreadsheets/d/1beV69dn9_XvvQ8fEmOMTfE_Lpb97XmA3/gviz/tq?tqx=out:csv&sheet=Tasks"
+  prmSummaryCsvUrl: "https://docs.google.com/spreadsheets/d/1beV69dn9_XvvQ8fEmOMTfE_Lpb97XmA3/gviz/tq?tqx=out:csv&sheet=PRM_Summary",
+  ibCsvUrl:        "https://docs.google.com/spreadsheets/d/1beV69dn9_XvvQ8fEmOMTfE_Lpb97XmA3/gviz/tq?tqx=out:csv&sheet=IB_List",
+  tasksCsvUrl:     "https://docs.google.com/spreadsheets/d/1beV69dn9_XvvQ8fEmOMTfE_Lpb97XmA3/gviz/tq?tqx=out:csv&sheet=Tasks"
 };
 
-// Players config – Level 0 for both
+// PRMs
 const PLAYERS = [
   { id: "Tri Vu", nick: "Gaara",     level: 0, baseScore: 0, avatarSrc: "gaara.png" },
   { id: "Khiem",  nick: "Shikamaru", level: 0, baseScore: 0, avatarSrc: "shikamaru.png" }
 ];
 
-/** Simple CSV fetcher */
+/**
+ * Нормальный CSV-парсер + CORS-прокси (AllOrigins)
+ */
 async function fetchCsv(url) {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Failed to load " + url);
+  // оборачиваем ссылку в прокси, чтобы обойти CORS
+  const proxied = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
+
+  const res = await fetch(proxied);
+  if (!res.ok) {
+    throw new Error("HTTP error " + res.status + " for " + url);
+  }
   const text = await res.text();
-  const [headerLine, ...lines] = text.trim().split(/\r?\n/);
-  const headers = headerLine.split(",").map(h => h.trim());
-  return lines.filter(Boolean).map(line => {
-    const cells = line.split(",");
+  const lines = text.trim().split(/\r?\n/);
+  if (!lines.length) return [];
+
+  // аккуратный сплит с кавычками
+  function splitCsvLine(line) {
+    const out = [];
+    let cur = "";
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '"') {
+        if (inQuotes && line[i + 1] === '"') {
+          cur += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (ch === "," && !inQuotes) {
+        out.push(cur);
+        cur = "";
+      } else {
+        cur += ch;
+      }
+    }
+    out.push(cur);
+    return out.map(v => {
+      v = v.trim();
+      if (v.startsWith('"') && v.endsWith('"')) v = v.slice(1, -1);
+      return v;
+    });
+  }
+
+  const headers = splitCsvLine(lines[0]);
+  return lines.slice(1).filter(Boolean).map(line => {
+    const cells = splitCsvLine(line);
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = (cells[i] || "").trim(); });
+    headers.forEach((h, i) => {
+      obj[h] = cells[i] ?? "";
+    });
     return obj;
   });
 }
@@ -813,12 +857,16 @@ async function initDashboard() {
       fetchCsv(CONFIG.tasksCsvUrl)
     ]);
 
+    console.log("PRM_Summary rows:", prmSummary.length);
+    console.log("IB_List rows:", ibRows.length);
+    console.log("Tasks rows:", tasksRows.length);
+
     renderPlayers(prmSummary, tasksRows);
     renderIbTables(ibRows);
     renderKpiOverview(prmSummary);
     renderTasks(tasksRows);
   } catch (err) {
-    console.error(err);
+    console.error("Dashboard init error:", err);
     alert("Error loading data from the sheet. Check CSV links and sharing (Anyone with link – Viewer).");
   }
 }
