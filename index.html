@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,24 +7,24 @@
 
   <style>
     :root {
-  /* светлая тема */
-  --bg: #f5f5fb;
-  --bg-card: #ffffff;
+      /* Light base */
+      --bg: #f5f5fb;
+      --bg-card: #ffffff;
 
-  /* Naruto-акценты */
-  --accent: #f97316;                     /* яркий оранжевый */
-  --accent-soft: rgba(249, 115, 22, 0.2);
-  --accent2: #0ea5e9;                    /* синий (чакра) */
+      /* Naruto accents */
+      --accent: #f97316;                     /* orange */
+      --accent-soft: rgba(249, 115, 22, 0.18);
+      --accent2: #0ea5e9;                    /* chakra blue */
 
-  /* текст теперь тёмный, читаемый */
-  --text-main: #111827;                  /* почти чёрный */
-  --text-sub: #6b7280;                   /* серый для подписи */
+      /* Text */
+      --text-main: #111827;
+      --text-sub: #6b7280;
 
-  --danger: #dc2626;
-  --success: #16a34a;
+      --danger: #dc2626;
+      --success: #16a34a;
 
-  --border-soft: rgba(15, 23, 42, 0.08); /* светлые бордеры */
-}
+      --border-soft: rgba(15, 23, 42, 0.08);
+    }
 
     * {
       box-sizing: border-box;
@@ -33,16 +34,17 @@
     }
 
     body {
-  background:
-    linear-gradient(180deg, #fff7ed 0%, #eff6ff 40%, #e5e7eb 100%);
-  color: var(--text-main);
-  min-height: 100vh;
-  padding: 20px;
-}
+      background: linear-gradient(180deg, #fff7ed 0%, #eff6ff 40%, #e5e7eb 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* LAYOUT */
 
     .grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
       gap: 20px;
     }
 
@@ -52,31 +54,37 @@
       }
     }
 
-   .card {
-  background: radial-gradient(circle at top left, #ffffff 0%, #f1f5f9 55%);
-  border-radius: 20px;
-  padding: 18px 20px 20px;
-  border: 1px solid #e5e7eb;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.10);
-  position: relative;
-  overflow: hidden;
-}
+    .section-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 18px 20px 20px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+      position: relative;
+      overflow: hidden;
+    }
 
-    .card::before {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.05), transparent 60%);
-  opacity: 1;
-  pointer-events: none;
-}
+    .section-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at top right, rgba(249, 115, 22, 0.07), transparent 60%),
+        radial-gradient(circle at bottom left, rgba(14, 165, 233, 0.06), transparent 60%);
+      pointer-events: none;
+    }
+
+    .section-inner {
+      position: relative;
+      z-index: 1;
+    }
+
     .card-header {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
+      gap: 8px;
       margin-bottom: 12px;
-      position: relative;
-      z-index: 1;
     }
 
     .card-title {
@@ -95,25 +103,33 @@
       border-radius: 999px;
       border: 1px solid var(--accent-soft);
       color: var(--accent);
-      background: rgba(15, 23, 42, 0.9);
+      background: rgba(255, 247, 237, 0.9);
     }
 
     .subtitle {
-  font-size: 12px;
-  color: var(--text-sub);
-  margin-top: -2px;
-}
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 2px;
+    }
+
+    /* HEADER */
 
     header {
       margin-bottom: 18px;
     }
 
+    header-top {
+      display: flex;
+      align-items: center;
+    }
+
     header h1 {
       font-size: 22px;
-      font-weight: 600;
+      font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       gap: 10px;
     }
@@ -126,14 +142,27 @@
       letter-spacing: 0.03em;
     }
 
-   header .badge {
-  font-size: 10px;
-  padding: 3px 9px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #f97316, #facc15, #0ea5e9);
-  text-transform: uppercase;
-  color: #111827;
-}
+    header .badge {
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f97316, #facc15, #0ea5e9);
+      text-transform: uppercase;
+      color: #111827;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+
+    .logo-wrap img {
+      height: 32px;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+    }
 
     /* PLAYER STRIP */
 
@@ -144,17 +173,18 @@
       margin-bottom: 18px;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 800px) {
       .players-row {
         grid-template-columns: 1fr;
       }
     }
 
     .player-card {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.75));
+      background: var(--bg-card);
       border-radius: 18px;
-      padding: 12px 12px 14px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
+      padding: 12px 14px 14px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       gap: 10px;
@@ -162,23 +192,21 @@
       overflow: hidden;
     }
 
-    .player-card::after {
+    .player-card::before {
       content: "";
       position: absolute;
       inset: -40%;
-      background: radial-gradient(circle at top, rgba(248, 250, 252, 0.07), transparent 55%);
-      opacity: 0.7;
-      mix-blend-mode: screen;
+      background: radial-gradient(circle at top right, rgba(249, 115, 22, 0.06), transparent 60%);
       pointer-events: none;
     }
 
     .player-avatar {
-      width: 54px;
-      height: 54px;
+      width: 60px;
+      height: 60px;
       border-radius: 16px;
       border: 2px solid var(--accent-soft);
       overflow: hidden;
-      background: radial-gradient(circle at top, #0f172a, #020617);
+      background: #f3f4ff;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -222,7 +250,7 @@
 
     .player-meta {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       margin-top: 4px;
       font-size: 11px;
       color: var(--text-sub);
@@ -240,7 +268,7 @@
       height: 6px;
       border-radius: 999px;
       background: var(--accent);
-      box-shadow: 0 0 6px rgba(34, 211, 238, 0.7);
+      box-shadow: 0 0 6px rgba(249, 115, 22, 0.5);
     }
 
     .player-progress {
@@ -252,22 +280,22 @@
     }
 
     .progress-bar {
-  height: 6px;
-  border-radius: 999px;
-  background: #e5e7eb;
-  overflow: hidden;
-  position: relative;
-}
+      height: 6px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      overflow: hidden;
+      position: relative;
+    }
 
-.progress-fill {
-  position: absolute;
-  inset: 0;
-  width: 30%;
-  height: 100%;
-  background: linear-gradient(90deg, #f97316, #facc15, #0ea5e9);
-  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
-  transition: width 0.7s ease-out;
-}
+    .progress-fill {
+      position: absolute;
+      inset: 0;
+      width: 30%;
+      height: 100%;
+      background: linear-gradient(90deg, #f97316, #facc15, #0ea5e9);
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.45);
+      transition: width 0.7s ease-out;
+    }
 
     .progress-label {
       font-size: 11px;
@@ -275,7 +303,16 @@
       text-align: right;
     }
 
-    /* KPI GAUGES */
+    .points-pill {
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(249, 115, 22, 0.08);
+      border: 1px solid var(--accent-soft);
+      color: #7c2d12;
+    }
+
+    /* KPI & LEGEND */
 
     .kpi-strip {
       display: grid;
@@ -291,9 +328,9 @@
     }
 
     .kpi-chip {
-      background: rgba(15, 23, 42, 0.9);
+      background: #f9fafb;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
+      border: 1px solid #e5e7eb;
       padding: 6px 8px;
       display: flex;
       align-items: baseline;
@@ -314,107 +351,27 @@
       font-size: 10px;
       padding: 2px 7px;
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.4);
+      border: 1px solid rgba(148, 163, 184, 0.6);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
 
     .kpi-state--ok {
-      border-color: rgba(74, 222, 128, 0.7);
-      color: var(--success);
+      border-color: rgba(34, 197, 94, 0.9);
+      color: #166534;
+      background: #dcfce7;
     }
 
     .kpi-state--warn {
-      border-color: rgba(234, 179, 8, 0.7);
-      color: #fde68a;
+      border-color: rgba(234, 179, 8, 0.9);
+      color: #854d0e;
+      background: #fef3c7;
     }
 
     .kpi-state--bad {
-      border-color: rgba(248, 113, 113, 0.7);
-      color: #fecaca;
-    }
-
-    /* TABLES */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 12px;
-    }
-
-    thead {
-  background: #f9fafb;
-    }
-
-    th, td {
-  padding: 6px 6px;
-  text-align: left;
-  border-bottom: 1px solid #e5e7eb;
-  white-space: nowrap;
-    }
-
-    th {
-  font-weight: 600;
-  color: #111827;
-  font-size: 11px;
-}
-
-tbody tr:nth-child(even) {
-  background: #f3f4f6;
-}
-
-tbody tr:hover {
-  background: #e5e7f0;
-    }
-
-    .tag {
-      padding: 2px 7px;
-      border-radius: 999px;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-    }
-
-    .tag-backlog {
-      border-color: rgba(248, 250, 252, 0.35);
-      color: #e5e7eb;
-    }
-
-    .tag-progress {
-      border-color: rgba(59, 130, 246, 0.8);
-      color: #bfdbfe;
-    }
-
-    .tag-done {
-      border-color: rgba(22, 163, 74, 0.8);
-      color: #bbf7d0;
-    }
-
-    .points-pill {
-      padding: 2px 7px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(34, 197, 235, 0.16);
-      border: 1px solid rgba(34, 211, 238, 0.7);
-    }
-
-    .status-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      margin-right: 4px;
-    }
-
-    .status-dot.backlog { background: #e5e7eb; }
-    .status-dot.progress { background: #3b82f6; }
-    .status-dot.done { background: #22c55e; }
-
-    .right-col {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      border-color: rgba(220, 38, 38, 0.9);
+      color: #7f1d1d;
+      background: #fee2e2;
     }
 
     .legend {
@@ -436,26 +393,102 @@ tbody tr:hover {
       height: 6px;
       width: 28px;
       border-radius: 999px;
-      background: linear-gradient(90deg, #22d3ee, #a855f7, #f97316);
+      background: linear-gradient(90deg, #f97316, #facc15, #0ea5e9);
     }
 
-   .muted {
-  color: var(--text-sub);
-  font-size: 11px;
-}
     .footer-note {
       margin-top: 12px;
       font-size: 10px;
       color: var(--text-sub);
       text-align: right;
     }
+
+    /* TABLES */
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    thead {
+      background: #f9fafb;
+    }
+
+    th,
+    td {
+      padding: 6px 6px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    th {
+      font-weight: 600;
+      color: #111827;
+      font-size: 11px;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f3f4f6;
+    }
+
+    tbody tr:hover {
+      background: #e5e7f0;
+    }
+
+    .muted {
+      color: var(--text-sub);
+      font-size: 11px;
+    }
+
+    /* TAGS & STATUS */
+
+    .tag {
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: #f9fafb;
+      color: #374151;
+    }
+
+    .tag-backlog {
+      border-color: #9ca3af;
+      background: #f3f4f6;
+    }
+
+    .tag-progress {
+      border-color: #3b82f6;
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .tag-done {
+      border-color: #22c55e;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      margin-right: 4px;
+    }
+
+    .status-dot.backlog { background: #9ca3af; }
+    .status-dot.progress { background: #3b82f6; }
+    .status-dot.done { background: #22c55e; }
   </style>
 </head>
 <body>
 <header>
-  <div style="display:flex; align-items:center; gap:14px; margin-bottom:8px;">
-    <img src="https://cdn.topasiafx.com/uploads/logo-images/1755511217_68a2f9b10ad2e.webp"
-         style="height:36px; border-radius:6px; box-shadow:0 0 10px rgba(255,140,0,0.4);" />
+  <div class="logo-wrap">
+    <img src="https://cdn.topasiafx.com/uploads/logo-images/1755511217_68a2f9b10ad2e.webp" alt="JustMarkets logo" />
     <h1>
       PRM BATTLE DASHBOARD
       <span>Vietnam · JustMarkets Partner Relation Team</span>
@@ -468,25 +501,27 @@ tbody tr:hover {
 
 <div class="grid">
   <!-- LEFT: IB tables -->
-  <section class="card">
-    <div class="card-header">
-      <div>
-        <div class="card-title">
-          New IB Performance
-          <span class="pill">Live from sheet</span>
-        </div>
-        <div class="subtitle">
-          Names · IDs · Active clients · Trading volume in USD per PRM
+  <section class="section-card">
+    <div class="section-inner">
+      <div class="card-header">
+        <div>
+          <div class="card-title">
+            New IB Performance
+            <span class="pill">Live from sheet</span>
+          </div>
+          <div class="subtitle">
+            Names · IDs · Active clients · Trading volume in USD per PRM
+          </div>
         </div>
       </div>
-    </div>
 
-    <div id="ibTables"></div>
+      <div id="ibTables"></div>
+    </div>
   </section>
 
   <!-- RIGHT: KPI & Tasks -->
-  <section class="right-col">
-    <div class="card">
+  <section class="section-card">
+    <div class="section-inner">
       <div class="card-header">
         <div>
           <div class="card-title">
@@ -510,35 +545,35 @@ tbody tr:hover {
         Trading volume target = previous month × (1 + % target) + Y × partners in the tier.
       </p>
     </div>
-
-    <div class="card">
-      <div class="card-header">
-        <div>
-          <div class="card-title">
-            Backlog & Missions
-            <span class="pill">Ticket points</span>
-          </div>
-          <div class="subtitle">
-            Tasks, status and earned points per PRM.
-          </div>
-        </div>
-      </div>
-
-      <div id="tasksContainer"></div>
-    </div>
   </section>
 </div>
+
+<div style="height:18px;"></div>
+
+<section class="section-card">
+  <div class="section-inner">
+    <div class="card-header">
+      <div>
+        <div class="card-title">
+          Backlog & Missions
+          <span class="pill">Ticket points</span>
+        </div>
+        <div class="subtitle">
+          Tasks, status and earned points per PRM.
+        </div>
+      </div>
+    </div>
+
+    <div id="tasksContainer"></div>
+  </div>
+</section>
 
 <script>
 /**
  * CONFIG – чистые ссылки на Google Sheet (без прокси).
- * Листы в таблице:
- *  - PRM_Summary
- *  - IB_List
- *  - Tasks
  */
 const CONFIG = {
-  prmSummaryCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRA-xMzm9l-LCYugNBfuMB1hLvRQlVLoKj0mK_VXPApxEWTAfyKBs7-nhPqdX2jiw/pub?gid=1983950592&single=true&output=csv",
+   prmSummaryCsvUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vRA-xMzm9l-LCYugNBfuMB1hLvRQlVLoKj0mK_VXPApxEWTAfyKBs7-nhPqdX2jiw/pub?gid=1983950592&single=true&output=csv",
   ibCsvUrl:        "https://docs.google.com/spreadsheets/d/e/2PACX-1vRA-xMzm9l-LCYugNBfuMB1hLvRQlVLoKj0mK_VXPApxEWTAfyKBs7-nhPqdX2jiw/pub?gid=911034269&single=true&output=csv",
   tasksCsvUrl:     "https://docs.google.com/spreadsheets/d/e/2PACX-1vRA-xMzm9l-LCYugNBfuMB1hLvRQlVLoKj0mK_VXPApxEWTAfyKBs7-nhPqdX2jiw/pub?gid=1618919766&single=true&output=csv"
 };
@@ -550,10 +585,9 @@ const PLAYERS = [
 ];
 
 /**
- * Нормальный CSV-парсер + CORS-прокси (AllOrigins)
+ * CSV-парсер + CORS-прокси (AllOrigins)
  */
 async function fetchCsv(url) {
-  // оборачиваем ссылку в прокси, чтобы обойти CORS
   const proxied = "https://api.allorigins.win/raw?url=" + encodeURIComponent(url);
 
   const res = await fetch(proxied);
@@ -564,7 +598,6 @@ async function fetchCsv(url) {
   const lines = text.trim().split(/\r?\n/);
   if (!lines.length) return [];
 
-  // аккуратный сплит с кавычками
   function splitCsvLine(line) {
     const out = [];
     let cur = "";
@@ -718,7 +751,7 @@ function renderIbTables(ibRows) {
         ${player.id}'s New IBs
         <span class="muted">(${ibForPrm.length} partners)</span>
       </h3>
-      <div style="overflow-x:auto;border-radius:10px;border:1px solid rgba(30,41,59,0.8);">
+      <div style="overflow-x:auto;border-radius:10px;border:1px solid #e5e7eb;">
         <table>
           <thead>
             <tr>
@@ -818,7 +851,7 @@ function renderTasks(tasksRows) {
         ${player.id}'s Missions
         <span class="muted">(${tickets.length} tickets)</span>
       </h3>
-      <div style="overflow-x:auto;border-radius:10px;border:1px solid rgba(30,41,59,0.8);">
+      <div style="overflow-x:auto;border-radius:10px;border:1px solid #e5e7eb;">
         <table>
           <thead>
             <tr>
@@ -865,10 +898,6 @@ async function initDashboard() {
       fetchCsv(CONFIG.ibCsvUrl),
       fetchCsv(CONFIG.tasksCsvUrl)
     ]);
-
-    console.log("PRM_Summary rows:", prmSummary.length);
-    console.log("IB_List rows:", ibRows.length);
-    console.log("Tasks rows:", tasksRows.length);
 
     renderPlayers(prmSummary, tasksRows);
     renderIbTables(ibRows);
